@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"newLine": "CRLF",
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"lib": [
+			"es6",
+			"dom"
+		]
+	},
+	"include": [
+		"types/**/*.ts",
+		"src/**/*"
+	]
+}

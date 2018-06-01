@@ -1,0 +1,55 @@
+{
+  "name": "@matthemsteger/redux-utils-fn-epics",
+  "version": "0.0.0",
+  "description": "Functional ramda based utilities for redux epics",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthemsteger/redux-utils-fn.git"
+  },
+  "keywords": [
+    "redux",
+    "functional",
+    "epics",
+    "observables"
+  ],
+  "author": "Matt Hemsteger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matthemsteger/redux-utils-fn/issues"
+  },
+  "homepage": "https://github.com/matthemsteger/redux-utils-fn#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-env": "^2.4.1",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "jest": "^22.4.3",
+    "mocha": "^5.2.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.8.0",
+    "prettier": "^1.12.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "sinon": "^5.0.10",
+    "sinon-chai": "^3.1.0",
+    "typescript": "^2.8.3"
+  }
+}

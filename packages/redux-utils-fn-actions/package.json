@@ -1,0 +1,59 @@
+{
+	"name": "@matthemsteger/redux-utils-fn-actions",
+	"version": "0.0.0",
+	"description": "Functional ramda based utilities for redux actions",
+	"module": "esm/index.js",
+	"main": "dist/index.js",
+	"esnext": "src/index.js",
+	"types": "./types/index.d.ts",
+	"scripts": {
+		"test": "mocha -r babel-register --recursive \"test/**/*.spec.js\"",
+		"test:watch": "mocha -r babel-register --recursive --watch \"test/**/*.spec.js\"",
+		"test:coverage": "nyc npm run test",
+		"lint": "eslint src test && echo Lint passed.",
+		"build:esm": "cross-env BABEL_ENV=esm babel src -d esm",
+		"build:cjs": "cross-env BABEL_ENV=cjs babel src -d dist",
+		"build": "npm-run-all build:*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/matthemsteger/redux-utils-fn.git"
+	},
+	"keywords": [
+		"redux",
+		"functional",
+		"actions",
+		"FSA"
+	],
+	"author": "Matt Hemsteger",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/matthemsteger/redux-utils-fn/issues"
+	},
+	"homepage": "https://github.com/matthemsteger/redux-utils-fn#readme",
+	"dependencies": {
+		"@types/ramda": "^0.25.24",
+		"babel-polyfill": "^6.26.0",
+		"ramda": "^0.25.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-env": "^2.4.1",
+		"babel-eslint": "^8.2.3",
+		"babel-register": "^6.26.0",
+		"chai": "^4.1.2",
+		"cross-env": "^5.1.4",
+		"eslint": "^4.19.1",
+		"eslint-config-airbnb-base": "^12.1.0",
+		"eslint-config-prettier": "^2.9.0",
+		"eslint-plugin-import": "^2.11.0",
+		"eslint-plugin-prettier": "^2.6.0",
+		"mocha": "^5.2.0",
+		"npm-run-all": "^4.1.2",
+		"nyc": "^11.8.0",
+		"prettier": "^1.12.1",
+		"sinon": "^5.0.10",
+		"sinon-chai": "^3.1.0",
+		"typescript": "^2.8.3"
+	}
+}

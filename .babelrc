@@ -1,0 +1,38 @@
+{
+	"env":{
+		"esm": {
+			"presets": [
+				["env", {
+					"modules": false,
+					"useBuiltIns": true,
+					"targets": {
+						"browsers": ["Firefox ESR", ">.5%", "not IE < 11", "not ie_mob < 99"],
+						"node": "8"
+					}
+				}]
+			]
+		},
+		"cjs": {
+			"presets": [
+				["env", {
+					"useBuiltIns": true,
+					"targets": {
+						"browsers": ["Firefox ESR", ">.5%", "not IE < 11", "not ie_mob < 99"],
+						"node": "8"
+					}
+				}]
+			]
+		},
+		"development": {
+			"presets": [
+				["env", {
+					"useBuiltIns": true,
+					"targets": {
+						"browsers": ["Firefox > 58", "Chrome > 65"],
+						"node": "8"
+					}
+				}]
+			]
+		}
+	}
+}
