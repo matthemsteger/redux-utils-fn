@@ -7,7 +7,6 @@ import {
 	__ as placeholder,
 	objOf,
 	compose,
-	when,
 	always,
 	pick,
 	uniq,
