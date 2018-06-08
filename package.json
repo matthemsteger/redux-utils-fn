@@ -1,0 +1,19 @@
+{
+	"private": true,
+	"scripts": {
+		"lerna": "lerna",
+		"lint": "lerna run lint",
+		"test:coverage": "nyc --reporter=lcov --reporter=text lerna run test",
+		"build": "lerna run build",
+		"coveralls": "nyc report --reporter=text-lcov | coveralls"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-core": "^6.26.3",
+		"babel-env": "^2.4.1",
+		"bundlesize": "^0.17.0",
+		"coveralls": "^3.0.1",
+		"lerna": "^2.10.2",
+		"nyc": "^12.0.2"
+	}
+}
