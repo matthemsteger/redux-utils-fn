@@ -15,7 +15,7 @@
 		]
 	},
 	"include": [
-		"types/**/*.ts",
-		"src/**/*"
+		"packages/**/types/**/*.ts",
+		"packages/**/src/**/*"
 	]
 }

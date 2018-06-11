@@ -4,6 +4,7 @@
 		"lerna": "lerna",
 		"lint": "lerna run lint",
 		"test:coverage": "nyc --reporter=lcov --reporter=text lerna run test",
+		"test:types": "tsc --listFiles",
 		"build": "lerna run build",
 		"coveralls": "nyc report --reporter=text-lcov | coveralls"
 	},
