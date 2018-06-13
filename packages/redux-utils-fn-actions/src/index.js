@@ -2,19 +2,27 @@ import 'babel-polyfill';
 import {curry, propEq, unless, invoker, compose, prop, evolve} from 'ramda';
 
 /**
+ * @template Payload
+ * @typedef {object} FSA
+ * @property {string} type
+ * @property {Payload} [payload]
+ * @property {boolean} [error]
+ */
+
+/**
  * @type {R.CurriedFunction2<string, string, boolean>}
  */
 const startsWith = invoker(1, 'startsWith');
 
 /**
  * @template Payload
- * @type {Internal.PlainActionCreator<Payload>}
+ * @type {import('./../types').PlainActionCreator<Payload>}
  */
 export const createPlainAction = curry((type, payload) => ({type, payload}));
 
 /**
  * @template Payload
- * @typedef {Internal.ActionCreator<Payload>} ActionCreator
+ * @typedef {import('./../types').ActionCreator<Payload>} ActionCreator
  */
 
 /**
@@ -34,13 +42,8 @@ export function createActionCreator(type) {
 }
 
 /**
- * @template Payload
- * @typedef {Internal.FSA<Payload>} FSA
- */
-
-/**
  * Using an action creator, create an errored action
- * @type {Internal.ErrorToAction<Error>}
+ * @type {import('./../types').ErrorToAction<Error>}
  */
 export const errorToAction = curry(
 	/**
@@ -79,7 +82,7 @@ export const prefixAction = curry((prefix, action) =>
 			startsWith(prefix),
 			getActionType
 		),
-		evolve({type: prefixType(prefix)}),
+		evolve({type: prefixType(prefix), payload: (x) => x, error: (x) => x}),
 		action
 	)
 );
