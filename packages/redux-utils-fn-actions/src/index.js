@@ -5,8 +5,8 @@ import {curry, propEq, unless, invoker, compose, prop, evolve} from 'ramda';
  * @template Payload
  * @typedef {object} FSA
  * @property {string} type
- * @property {Payload} [payload]
- * @property {boolean} [error]
+ * @property {Payload | undefined} [payload]
+ * @property {boolean | undefined} [error]
  */
 
 /**
@@ -82,7 +82,7 @@ export const prefixAction = curry((prefix, action) =>
 			startsWith(prefix),
 			getActionType
 		),
-		evolve({type: prefixType(prefix), payload: (x) => x, error: (x) => x}),
+		evolve({type: prefixType(prefix)}),
 		action
 	)
 );
