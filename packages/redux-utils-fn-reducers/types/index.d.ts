@@ -15,7 +15,7 @@ declare namespace ReduxUtilsFnReducers {
 	}
 
 	export type State = object;
-	export type PayloadReducer<Payload> = (action: FSA<Payload>, state: State) => State;
+	export type PayloadReducer<Payload> = R.CurriedFunction2<FSA<Payload>, State, State>;
 	export type ReducerSpec<Payload> = [string, PayloadReducer<Payload> | PayloadReducer<Payload>[]];
 	export type ReduxReducer = (state: State, action: ReduxAction) => State;
 	export type ReducerPredicate<Payload> = (action: FSA<Payload>, state: State) => boolean;

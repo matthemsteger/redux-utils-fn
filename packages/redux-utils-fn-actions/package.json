@@ -33,7 +33,6 @@
 	"homepage": "https://github.com/matthemsteger/redux-utils-fn#readme",
 	"dependencies": {
 		"@types/ramda": "^0.25.32",
-		"babel-polyfill": "^6.26.0",
 		"ramda": "^0.25.0"
 	},
 	"devDependencies": {

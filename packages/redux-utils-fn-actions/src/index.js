@@ -1,12 +1,11 @@
-import 'babel-polyfill';
 import {curry, propEq, unless, invoker, compose, prop, evolve} from 'ramda';
 
 /**
  * @template Payload
  * @typedef {object} FSA
  * @property {string} type
- * @property {Payload | undefined} [payload]
- * @property {boolean | undefined} [error]
+ * @property {Payload | void} [payload]
+ * @property {boolean | void} [error]
  */
 
 /**
