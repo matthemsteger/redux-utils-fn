@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {has, prop, when, always} from 'ramda';
 import {MAP_KEY} from './constants';
 

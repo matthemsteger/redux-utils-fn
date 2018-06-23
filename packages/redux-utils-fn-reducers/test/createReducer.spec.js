@@ -54,12 +54,12 @@ describe('src/createReducer', () => {
 				const result = reducer(state, action);
 				expect(result).to.not.equal(state);
 				expect(handler).to.have.been.calledOnce;
-				spec
-					.filter(([, specHandler]) => specHandler !== handler)
-					.forEach(
-						([, specHandler]) =>
-							expect(specHandler).to.not.have.been.called
-					);
+				spec.filter(
+					([, specHandler]) => specHandler !== handler
+				).forEach(
+					([, specHandler]) =>
+						expect(specHandler).to.not.have.been.called
+				);
 			});
 		});
 

@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import {
 	curry,
 	flip,
@@ -12,7 +11,12 @@ import {
 	flatten
 } from 'ramda';
 
-const addKey = curry((obj, key) => compose(flip(merge)(obj), objOf(key))(key));
+const addKey = curry((obj, key) =>
+	compose(
+		flip(merge)(obj),
+		objOf(key)
+	)(key)
+);
 
 /**
  * Create a constant map from strings or arrays of strings
@@ -20,13 +24,22 @@ const addKey = curry((obj, key) => compose(flip(merge)(obj), objOf(key))(key));
  * @returns {Object.<string, string>}
  */
 export function createConstantMap(...constants) {
-	return compose(reduce(addKey, {}), flatten)(constants);
+	return compose(
+		reduce(addKey, {}),
+		flatten
+	)(constants);
 }
 
+/**
+ * @type {R.CurriedFunction2<string[], string, string[]>}
+ */
 const addConstantSuffixes = curry((suffixes, constant) =>
 	map((suffix) => `${constant}_${suffix}`, suffixes)
 );
 
+/**
+ * @type {R.CurriedFunction2<string[], string, string[]>}
+ */
 const addConstantPrefixes = curry((prefixes, constant) =>
 	map((prefix) => `${prefix}_${constant}`, prefixes)
 );
@@ -34,13 +47,18 @@ const addConstantPrefixes = curry((prefixes, constant) =>
 /**
  * Create lifecycle constants from a constant
  * This creates _PENDING, _DONE and _PROGRESS
+ * @todo extra append notation for typescript
+ * @see https://github.com/Microsoft/TypeScript/issues/15680
  * @param {string} constant
  * @returns {string[]} constants
  */
 export function createLifecycleConstants(constant) {
+	/** @type {function(string[]): string[]} */
+	const appendConstant = append(constant);
+
 	return compose(
 		map(toUpper),
-		append(constant),
+		appendConstant,
 		addConstantSuffixes(['PENDING', 'DONE', 'PROGRESS'])
 	)(constant);
 }

@@ -4,6 +4,7 @@
 		"lerna": "lerna",
 		"lint": "lerna run lint",
 		"test:coverage": "nyc --reporter=lcov --reporter=text lerna run test",
+		"test:types": "tsc --listFiles",
 		"build": "lerna run build",
 		"coveralls": "nyc report --reporter=text-lcov | coveralls"
 	},
@@ -14,6 +15,7 @@
 		"bundlesize": "^0.17.0",
 		"coveralls": "^3.0.1",
 		"lerna": "^2.10.2",
-		"nyc": "^12.0.2"
+		"nyc": "^12.0.2",
+		"typescript": "^2.9.1"
 	}
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {curry, compose, prop, values} from 'ramda';
 import createSelector from './createSelector';
 
@@ -5,7 +6,10 @@ export const createStandardAllSelector = curry(
 	(localizedSelector, resourceName) =>
 		createSelector(
 			localizedSelector,
-			compose(values, prop(`${resourceName}ById`))
+			compose(
+				values,
+				prop(`${resourceName}ById`)
+			)
 		)
 );
 

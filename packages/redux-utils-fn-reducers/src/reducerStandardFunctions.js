@@ -4,6 +4,7 @@ import {
 	identity,
 	evolve,
 	merge,
+	// @ts-ignore
 	__ as placeholder,
 	objOf,
 	compose,
@@ -31,17 +32,65 @@ import {
 } from './reducerPredicates';
 import {createPayloadReducer} from './createReducer';
 
-const selectPayload = curry((payloadSelector, action) =>
-	compose(payloadSelector, prop('payload'))(action)
+/**
+ * @template Payload
+ * @typedef {import('./../types').FSA<Payload>} FSA
+ */
+
+/**
+ * @typedef {import('./../types').State} State
+ */
+
+/**
+ * @template Payload, Resource
+ * @typedef {import('./../types').PayloadSelector<Payload, Resource>} PayloadSelector
+ */
+
+/**
+ * @template Resource
+ * @typedef {import('./../types').IdSelector<Resource>} IdSelector
+ */
+
+/**
+ * @template Payload, Resource
+ */
+const selectPayload = curry(
+	/**
+	 * @param {import('./../types').PayloadSelector<Payload, Resource>} payloadSelector
+	 * @param {FSA<Payload>} action
+	 * @returns {Resource}
+	 */
+	(payloadSelector, action) =>
+		compose(
+			payloadSelector,
+			/** @type {function(FSA<Payload>): Payload} */ (prop('payload'))
+		)(action)
 );
 
 const binaryWhen = curry((pred, fn) =>
 	cond([[pred, binary(fn)], [T, nthArg(1)]])
 );
 
+/**
+ * @type {IdSelector<*>}
+ */
+const defaultIdSelector = prop('id');
+
+/**
+ * @template Payload, Resource
+ */
 export const addResourceToMap = curry(
+	/**
+	 * @param {import('./../types').AddResourceOptions<Payload, Resource>} options
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	(
-		{mapKey, idSelector = prop('id'), payloadSelector = identity},
+		{
+			mapKey,
+			idSelector = defaultIdSelector,
+			payloadSelector = /** @type {PayloadSelector<Payload, Resource>} */ (identity)
+		},
 		action,
 		state
 	) => {
@@ -53,21 +102,49 @@ export const addResourceToMap = curry(
 	}
 );
 
+/**
+ * @template Payload, Resource
+ */
 export const addResourceToArray = curry(
+	/**
+	 * @param {import('./../types').AddResourceOptions<Payload, Resource>} options
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	(
-		{mapKey, idSelector = prop('id'), payloadSelector = identity},
+		{
+			mapKey,
+			idSelector = defaultIdSelector,
+			payloadSelector = /** @type {PayloadSelector<Payload, Resource>} */ (identity)
+		},
 		action,
 		state
 	) => {
-		const id = compose(idSelector, selectPayload(payloadSelector))(action);
+		const id = compose(
+			idSelector,
+			selectPayload(payloadSelector)
+		)(action);
 		return evolve({
-			[mapKey]: compose(uniq, append(id))
+			[mapKey]: compose(
+				uniq,
+				append(id)
+			)
 		})(state);
 	}
 );
 
-const setResourceError = curry((resourceName, error, action, state) =>
-	evolve({[`${resourceName}Error`]: always(error)})(state)
+/**
+ * @template ErrorPayload
+ */
+const setResourceError = curry(
+	/**
+	 * @param {string} resourceName
+	 * @param {ErrorPayload | null} error
+	 * @param {FSA<ErrorPayload>} action
+	 * @param {State} state
+	 */
+	(resourceName, error, action, state) =>
+		evolve({[`${resourceName}Error`]: always(error)})(state)
 );
 
 const makeErrorSerializable = pick([
@@ -78,9 +155,21 @@ const makeErrorSerializable = pick([
 	'signal'
 ]);
 
+/**
+ * @template Payload, Resource
+ */
 export const handleStandardError = curry(
+	/**
+	 * @param {import('./../types').StandardErrorOptions<Payload, Resource>} options
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	(
-		{resourceName, payloadSelector = identity, clearOnSuccess = true},
+		{
+			resourceName,
+			payloadSelector = /** @type {PayloadSelector<Payload, Resource>} */ (identity),
+			clearOnSuccess = true
+		},
 		action,
 		state
 	) =>
@@ -96,6 +185,7 @@ export const handleStandardError = curry(
 				whenError,
 				setResourceError(
 					resourceName,
+					// @ts-ignore
 					makeErrorSerializable(
 						selectPayload(payloadSelector, action)
 					)
@@ -104,16 +194,30 @@ export const handleStandardError = curry(
 		])(action, state)
 );
 
-const resourceNameById = (resourceName) => `${resourceName}ById`;
+const resourceNameById = /** @param {string} resourceName */ (resourceName) =>
+	`${resourceName}ById`;
 
+/**
+ * @template Payload, Resource
+ */
 export const handleStandardAdd = curry(
+	/**
+	 * @param {import('./../types').StandardAddOptions<Payload, Resource>} options
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	(
-		{resourceName, idSelector = prop('id'), payloadSelector = identity},
+		{
+			resourceName,
+			idSelector = defaultIdSelector,
+			payloadSelector = /** @type {PayloadSelector<Payload, Resource>} */ (identity)
+		},
 		action,
 		state
 	) =>
 		reducerWithPredicate(
 			whenNoErrorAndHasPayload(payloadSelector),
+			// @ts-ignore
 			createPayloadReducer([
 				addResourceToMap({
 					mapKey: resourceNameById(resourceName),
@@ -131,34 +235,77 @@ export const handleStandardAdd = curry(
 		)
 );
 
-const removeResource = curry((resourceName, id, action, state) =>
-	evolve({
-		[resourceNameById(resourceName)]: omit([id]),
-		[resourceName]: without([id])
-	})(state)
+const removeResource = curry(
+	/**
+	 * @param {string} resourceName
+	 * @param {string} id
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
+	(resourceName, id, action, state) =>
+		evolve({
+			[resourceNameById(resourceName)]: omit([id]),
+			[resourceName]: without([id])
+		})(state)
 );
 
+/**
+ * @template Payload, Resource
+ */
 export const handleStandardRemove = curry(
+	/**
+	 * @param {import('./../types').StandardRemoveOptions<Payload, Resource>} options
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	({resourceName, payloadSelector = prop('id')}, action, state) =>
 		reducerWithPredicate(
 			whenNoErrorAndHasPayload(payloadSelector),
+			// @ts-ignore
 			removeResource(
 				resourceName,
-				compose(payloadSelector, prop('payload'))(action)
+				compose(
+					// @ts-ignore
+					payloadSelector,
+					prop('payload')
+				)(action)
 			),
 			action,
 			state
 		)
 );
 
-const whenNoErrorAndHasArrayPayload = (payloadSelector) =>
-	composePredicates([
-		whenNoErrorAndHasPayload(payloadSelector),
-		(action) =>
-			compose(Array.isArray, selectPayload(payloadSelector))(action)
-	]);
+/**
+ * @template Payload, Resource
+ */
+const whenNoErrorAndHasArrayPayload =
+	/**
+	 * @param {PayloadSelector<Payload, Resource>} payloadSelector
+	 */
+	(payloadSelector) =>
+		// @ts-ignore
+		composePredicates([
+			whenNoErrorAndHasPayload(payloadSelector),
+			// @ts-ignore
+			(action) =>
+				compose(
+					Array.isArray,
+					// @ts-ignore
+					selectPayload(payloadSelector)
+				)(action)
+		]);
 
+/**
+ * @template Payload, Resource
+ */
 const addResources = curry(
+	/**
+	 * @param {import('./../types').IdSelector<Resource>} idSelector
+	 * @param {string} resourceName
+	 * @param {Resource[]} resources
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	(idSelector, resourceName, resources, action, state) =>
 		evolve({
 			[resourceNameById(resourceName)]: flip(merge)(
@@ -169,16 +316,27 @@ const addResources = curry(
 );
 
 export const handleStandardReceive = curry(
+	/**
+	 * @param {import('./../types').StandardAddOptions<Payload, Resource>} options
+	 * @param {FSA<Payload>} action
+	 * @param {State} state
+	 */
 	(
-		{resourceName, idSelector = prop('id'), payloadSelector = identity},
+		{
+			resourceName,
+			idSelector = defaultIdSelector,
+			payloadSelector = identity
+		},
 		action,
 		state
 	) =>
 		reducerWithPredicate(
 			whenNoErrorAndHasArrayPayload(payloadSelector),
+			// @ts-ignore
 			addResources(
 				idSelector,
 				resourceName,
+				// @ts-ignore
 				selectPayload(payloadSelector, action)
 			),
 			action,

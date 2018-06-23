@@ -15,18 +15,19 @@ declare namespace ReduxUtilsFnReducers {
 	}
 
 	export type State = object;
-	export type PayloadReducer<Payload> = (action: FSA<Payload>, state: State) => State;
+	export type PayloadReducer<Payload> = R.CurriedFunction2<FSA<Payload>, State, State>;
 	export type ReducerSpec<Payload> = [string, PayloadReducer<Payload> | PayloadReducer<Payload>[]];
 	export type ReduxReducer = (state: State, action: ReduxAction) => State;
-	export type ReducerPredicate<Payload> = (action: FSA<Payload>, state: State) => boolean;
-	export type PayloadSelector<Payload> = (payload: Payload) => any;
+	export type ReducerPredicate<Payload> = R.CurriedFunction2<FSA<Payload>, State, boolean>;
+	export type PayloadSelector<Payload, Resource> = (payload: Payload) => Resource;
+	export type IdSelector<Resource> = (resource: Resource) => string;
 
 	interface PayloadOptions<Payload, Resource> {
-		payloadSelector?: (payload: Payload) => Resource;
+		payloadSelector?: PayloadSelector<Payload, Resource>;
 	}
 
 	interface IdentifierOptions<Resource> {
-		idSelector?: (resource: Resource) => string;
+		idSelector?: IdSelector<Resource>;
 	}
 
 	interface StandardOptions {
@@ -49,9 +50,9 @@ declare namespace ReduxUtilsFnReducers {
 	let reducerWithPredicate: R.CurriedFunction4<ReducerPredicate<any>, ReduxReducer, FSA<any>, State, ReduxReducer>;
 	let whenError: ReducerPredicate<any>;
 	let whenNoError: ReducerPredicate<any>;
-	let hasPayload: R.CurriedFunction3<PayloadSelector<any>, FSA<any>, State, boolean>;
+	let hasPayload: R.CurriedFunction3<PayloadSelector<any, any>, FSA<any>, State, boolean>;
 	let composePredicates: R.CurriedFunction3<ReducerPredicate<any>[], FSA<any>, State, boolean>;
-	let whenNoErrorAndHasPayload: R.CurriedFunction3<PayloadSelector<any>, FSA<any>, State, boolean>;
+	let whenNoErrorAndHasPayload: R.CurriedFunction3<PayloadSelector<any, any>, FSA<any>, State, boolean>;
 	let addResourceToMap: R.CurriedFunction3<AddResourceOptions<any, any>, FSA<any>, State, State>;
 	let addResourceToArray: R.CurriedFunction3<AddResourceOptions<any, any>, FSA<any>, State, State>;
 	let handleStandardError: R.CurriedFunction3<StandardErrorOptions<any, any>, FSA<any>, State, State>;

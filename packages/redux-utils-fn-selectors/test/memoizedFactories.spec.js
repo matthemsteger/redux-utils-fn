@@ -24,7 +24,10 @@ const memoize = (fn, options) => {
 	factoryFunctionSpies.push(factoryFunctionSpy);
 	return _memoize(factoryFunctionSpy, options);
 };
-const isOdd = compose(equals(1), modulo(placeholder, 2));
+const isOdd = compose(
+	equals(1),
+	modulo(placeholder, 2)
+);
 
 const memoizedFactoriesModule = proxyquire('./../src/memoizedFactories', {
 	'memoize-immutable': memoize
@@ -47,7 +50,13 @@ describe('src/memoizedFactories', () => {
 	});
 
 	const collection = times(
-		converge(merge, [objOf('id'), compose(objOf('odd'), isOdd)]),
+		converge(merge, [
+			objOf('id'),
+			compose(
+				objOf('odd'),
+				isOdd
+			)
+		]),
 		10
 	);
 

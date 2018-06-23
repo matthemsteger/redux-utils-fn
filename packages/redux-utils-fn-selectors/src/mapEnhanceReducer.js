@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {forEachObjIndexed} from 'ramda';
 import {MAP_KEY} from './constants';
 
