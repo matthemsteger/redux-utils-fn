@@ -30,6 +30,9 @@
 		"url": "https://github.com/matthemsteger/redux-utils-fn/issues"
 	},
 	"homepage": "https://github.com/matthemsteger/redux-utils-fn#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"dependencies": {
 		"ramda": "^0.25.0"
 	},
