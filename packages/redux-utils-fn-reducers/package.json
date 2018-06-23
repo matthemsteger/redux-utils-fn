@@ -1,6 +1,6 @@
 {
 	"name": "@matthemsteger/redux-utils-fn-reducers",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "Functional ramda based utilities for redux reducers",
 	"module": "esm/index.js",
 	"main": "dist/index.js",
