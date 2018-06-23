@@ -10,7 +10,9 @@ import {
 } from 'ramda';
 
 export default curry((selectorsMap, state) =>
-	compose(fromPairs, map(over(lensIndex(1), applyTo(state))), toPairs)(
-		selectorsMap
-	)
+	compose(
+		fromPairs,
+		map(over(lensIndex(1), applyTo(state))),
+		toPairs
+	)(selectorsMap)
 );

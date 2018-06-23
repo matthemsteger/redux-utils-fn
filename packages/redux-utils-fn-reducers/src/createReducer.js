@@ -89,6 +89,7 @@ export default curry(
 	 */
 	(initialState, spec, state, action) => {
 		const stateToPass = when(isNil, always(initialState))(state);
+		// @ts-ignore
 		const actionToPass = when(equals(undefined), always({}))(action);
 		return compose(
 			// @ts-ignore
@@ -98,6 +99,7 @@ export default curry(
 				compose(
 					// @ts-ignore
 					adjust(unless(is(Function), propEq('type')), 0),
+					// @ts-ignore
 					adjust(createPayloadReducer, 1)
 				)
 			)

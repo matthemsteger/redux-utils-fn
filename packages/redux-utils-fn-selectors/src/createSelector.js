@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
 	ifElse,
 	head,
@@ -20,7 +21,10 @@ import _memoize from 'memoize-immutable';
 import {OBJ_STRING} from './constants';
 
 const memoize = unary(_memoize);
-const firstElementIsArray = compose(Array.isArray, head);
+const firstElementIsArray = compose(
+	Array.isArray,
+	head
+);
 const funcsOrArray = (funcs) =>
 	ifElse(firstElementIsArray, head, slice(0, -1))(funcs);
 const isFunction = (value) =>
@@ -28,7 +32,10 @@ const isFunction = (value) =>
 
 const anyNotFunctionOrLessThan2 = anyPass([
 	any(complement(isFunction)),
-	compose(gt(2), length)
+	compose(
+		gt(2),
+		length
+	)
 ]);
 
 export default function createSelector(...funcs) {
@@ -43,12 +50,16 @@ export default function createSelector(...funcs) {
 		funcsOrArray
 	)(funcs);
 
-	const lastFunc = compose(memoize, last)(funcs);
+	const lastFunc = compose(
+		memoize,
+		last
+	)(funcs);
 
 	return function selector(state, props) {
-		return pipe(arrayOf, ap(inputSelectors), apply(lastFunc))([
-			state,
-			props
-		]);
+		return pipe(
+			arrayOf,
+			ap(inputSelectors),
+			apply(lastFunc)
+		)([state, props]);
 	};
 }

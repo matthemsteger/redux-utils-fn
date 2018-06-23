@@ -34,7 +34,7 @@
 		"ramda": "^0.25.0"
 	},
 	"devDependencies": {
-		"@types/ramda": "github:types/npm-ramda#dist",
+		"@types/ramda": "^0.25.33",
 		"babel-cli": "^6.26.0",
 		"babel-env": "^2.4.1",
 		"babel-eslint": "^8.2.3",
